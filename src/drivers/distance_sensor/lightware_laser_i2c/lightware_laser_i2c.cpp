@@ -443,15 +443,18 @@ int LightwareLaser::updateRestriction()
 	switch (_param_sf1xx_mode.get()) {
 	case 0: // Sensor disabled
 		_restriction = true;
+		_px4_rangefinder.set_mode(distance_sensor_s::DISTANCE_SENSOR_MODE_UNKNOWN);
 		break;
 
 	case 1: // Sensor enabled
 	default:
 		_restriction = false;
+		_px4_rangefinder.set_mode(distance_sensor_s::DISTANCE_SENSOR_MODE_CONT);
 		break;
 
 	case 2:
 		_restriction = _auto_restriction;
+		_px4_rangefinder.set_mode(distance_sensor_s::DISTANCE_SENSOR_MODE_VTOL_RW);
 		break;
 	}
 

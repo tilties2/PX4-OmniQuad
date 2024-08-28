@@ -40,3 +40,8 @@ uint8 ROTATION_UPWARD_FACING   = 24 # MAV_SENSOR_ROTATION_PITCH_90
 uint8 ROTATION_DOWNWARD_FACING = 25 # MAV_SENSOR_ROTATION_PITCH_270
 
 uint8 ROTATION_CUSTOM          = 100 # MAV_SENSOR_ROTATION_CUSTOM
+
+uint8 mode 			# mode of operation
+uint8 DISTANCE_SENSOR_MODE_UNKNOWN = 0 # Unknown mode
+uint8 DISTANCE_SENSOR_MODE_CONT    = 1 # sensor is running continuosly
+uint8 DISTANCE_SENSOR_MODE_VTOL_RW = 2 # sensor is disabled for VTOL FW flight mode

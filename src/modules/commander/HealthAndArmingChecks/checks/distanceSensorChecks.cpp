@@ -41,6 +41,8 @@ void DistanceSensorChecks::checkAndReport(const Context &context, Report &report
 		return;
 	}
 
+	_vehicle_status_sub.update();
+
 	for (int instance = 0; instance < _distance_sensor_sub.size(); instance++) {
 		const bool exists = _distance_sensor_sub[instance].advertised();
 		const bool is_mandatory = instance < _param_sys_has_num_dist.get();
@@ -48,7 +50,9 @@ void DistanceSensorChecks::checkAndReport(const Context &context, Report &report
 
 		if (exists) {
 			distance_sensor_s dist_sens;
-			valid = _distance_sensor_sub[instance].copy(&dist_sens) && hrt_elapsed_time(&dist_sens.timestamp) < 1_s;
+			valid = _distance_sensor_sub[instance].copy(&dist_sens) && ((hrt_elapsed_time(&dist_sens.timestamp) < 1_s)
+					|| (_vehicle_status_sub.get().is_vtol && (dist_sens.mode == distance_sensor_s::DISTANCE_SENSOR_MODE_VTOL_RW)
+					    && (_vehicle_status_sub.get().vehicle_type == vehicle_status_s::VEHICLE_TYPE_FIXED_WING)));
 			reporter.setIsPresent(health_component_t::distance_sensor);
 		}
 

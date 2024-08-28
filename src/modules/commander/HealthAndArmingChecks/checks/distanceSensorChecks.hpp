@@ -49,6 +49,7 @@ public:
 
 private:
 	uORB::SubscriptionMultiArray<distance_sensor_s> _distance_sensor_sub{ORB_ID::distance_sensor};
+	uORB::SubscriptionData<vehicle_status_s> _vehicle_status_sub{ORB_ID(vehicle_status)};	/**< vehicle status subscription */
 
 	DEFINE_PARAMETERS_CUSTOM_PARENT(HealthAndArmingCheckBase,
 					(ParamInt<px4::params::SYS_HAS_NUM_DIST>) _param_sys_has_num_dist
