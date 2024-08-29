@@ -1,0 +1,34 @@
+services:
+    omniquad-sitl:
+        image: omniquad-sitl
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+              - DOCKER_BUILDKIT=1
+        container_name: omniquad-sitl-cnt
+        tty: true
+        stdin_open: true
+        privileged: true
+        network_mode: host
+        working_dir: /root/PX4-OmniQuad
+        volumes:
+            - $XAUTHORITY:$XAUTHORITY
+            - /tmp/.X11-unix:/tmp/.X11-unix:rw
+            - /etc/sudoers.d:/etc/sudoers.d:ro
+            - /dev:/dev
+            - $PWD/../../PX4-OmniQuad:/root/PX4-OmniQuad
+        environment:
+            - DISPLAY=$DISPLAY
+            - QT_X11_NO_MITSHM=1
+            - XAUTHORITY=$XAUTHORITY
+        security_opt:
+            - seccomp:unconfined
+        runtime: nvidia
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          count: 1
+                          capabilities: [gpu]
