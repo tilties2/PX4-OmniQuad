@@ -93,6 +93,8 @@ MulticopterAttitudeControl::parameters_updated()
 						radians(_param_mc_yawrate_max.get())));
 
 	_man_tilt_max = math::radians(_param_mpc_man_tilt_max.get());
+
+	_man_F_max = _param_f_max.get();
 }
 
 float
@@ -170,6 +172,43 @@ MulticopterAttitudeControl::generate_attitude_setpoint(const Quatf &q, float dt,
 	// Align the desired tilt with the yaw setpoint
 	Quatf q_sp = q_sp_yaw * q_sp_rp;
 
+	Eulerf euler_des(q_sp);
+
+	tilting_servo_sp_s servo_sp;
+
+	if(_param_airframe.get() == 13 ){ //If tilting_multirotors
+
+		_man_Fx_input_filter.setParameters(dt, _param_mc_man_tilt_tau.get());
+		_man_Fy_input_filter.setParameters(dt,_param_mc_man_tilt_tau.get());
+		_man_Fx_input_filter.update(_manual_control_setpoint.pitch * _man_F_max);
+		_man_Fy_input_filter.update(_manual_control_setpoint.roll * _man_F_max);
+		const float fx_sp = _man_Fx_input_filter.getState();
+		const float fy_sp = _man_Fy_input_filter.getState();
+		// pitch_des = _manual_control_setpoint.aux1;
+		// PX4_INFO("aux1: %f ", (double)pitch_des)
+
+		// PX4_INFO("fx_sp: %f", (double)_manual_control_setpoint.x);
+		// PX4_INFO("fy_sp: %f", (double)_manual_control_setpoint.y);
+
+		/* Check if the drone is a H-tilting multirotor */
+		if (_param_tilting_type.get() == 0 && _param_mpc_pitch_on_tilt.get()){
+
+			servo_sp.angle[0] = euler_des(1);
+			euler_des(1) = 0.0f;
+
+		}
+		else if(_param_tilting_type.get() == 1 ){
+
+			euler_des(0) = 0.0f;
+			euler_des(1) = 0.0f;
+			attitude_setpoint.thrust_body[0] = fx_sp;
+			attitude_setpoint.thrust_body[1] = fy_sp;
+
+		}
+
+		q_sp = Quatf(Eulerf(euler_des(0), euler_des(1), euler_des(2)));
+	}
+
 	q_sp.copyTo(attitude_setpoint.q_d);
 
 	// Transform to euler angles for logging only
@@ -182,6 +221,10 @@ MulticopterAttitudeControl::generate_attitude_setpoint(const Quatf &q, float dt,
 	attitude_setpoint.timestamp = hrt_absolute_time();
 
 	_vehicle_attitude_setpoint_pub.publish(attitude_setpoint);
+
+	// Send servo setpoint for one-tilt airframe
+	servo_sp.timestamp = hrt_absolute_time();
+	_tilting_servo_pub.publish(servo_sp);
 
 	// update attitude controller setpoint immediately
 	_attitude_control.setAttitudeSetpoint(q_sp, attitude_setpoint.yaw_sp_move_rate);
