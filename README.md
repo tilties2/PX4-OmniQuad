@@ -13,8 +13,11 @@ we aim a simplified maintenance, and improved force and thrust to weight ratio. 
 
 More info on the mechanical design of the platform can be found here [Haptic-Omniquad](https://github.com/tilties2/Haptic-OmniQuad.git)
 
+CONTACT FLIGHT           |  FREE FLIGHT
+:-------------------------:|:-------------------------:
+![alt text](Media/omniquad_contactflight.GIF)  |  ![alt text](Media/omniquad_freeflight.GIF)
 
-![alt text](Media/omniquad_flying.GIF)
+
 
 ## Setup
 
