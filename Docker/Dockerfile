@@ -207,7 +207,7 @@ RUN git clone https://github.com/eProsima/Micro-XRCE-DDS-Agent.git /root/Micro-X
 
 # Clone PX4 repositories
 RUN mkdir -p /root/ros2_ws/src/
-WORKDIR /root/ros2_ws/srcº
+WORKDIR /root/ros2_ws/src
 RUN git clone https://github.com/PX4/px4_msgs.git
 RUN git clone https://github.com/PX4/px4_ros_com.git
 RUN git clone https://github.com/tilties2/ws_sensor_combined.git

@@ -16,7 +16,7 @@ git config --global --add safe.directory "*"
 echo -e "${YELLOW}STARTING SETUP OF THE REPO${NC}"
 echo -e "--------------------------"
 
-source /opt/ros/foxy/setup.bash
+source /opt/ros/$ROS_DISTRO/setup.bash
 
 if [ ! -d "$repo_folder/build" ]; then
     # Build PX4 without simulation
@@ -32,7 +32,7 @@ if [ ! -d "$repo_folder/build" ]; then
     # Build PX4 with Gazebo classic NDT tilting simulation
     echo -e "${GREEN}BUILDING PX4 SITL TILTES...${NC}"
     echo -e "--------------------------"
-    DONT_RUN=1 make px4_sitl
+    DONT_RUN=1 make px4_sitl gazebo-classic_omniquad
 fi
 
 # Build ros2 packages
