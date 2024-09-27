@@ -28,7 +28,7 @@ Further information regards PX4 Software-In-The-Loop can be found at the officia
 1. Clone the repository
 
 ```bash
-git clone git@github.com:tilties2/PX4-OmniQuad.git
+git clone https://github.com/tilties2/PX4-OmniQuad.git
 ```
 
 2. Initialize submodules
