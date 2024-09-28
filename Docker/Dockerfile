@@ -192,31 +192,30 @@ ENV QT_X11_NO_MITSHM 1
 ###########################################
 
 FROM gazebo-nvidia as px4
-RUN pip3 install -U empy==3.3.4 pyros-genmsg setuptools
+RUN pip3 install -U empy==3.3.4 pyros-genmsg setuptools importlib-metadata
 RUN apt install -y python3-colcon-common-extensions
 
 # Clone and build Micro-XRCE-DDS-Agent
-RUN git clone https://github.com/eProsima/Micro-XRCE-DDS-Agent.git /root/Micro-XRCE-DDS-Agent && \
-    cd /root/Micro-XRCE-DDS-Agent && \
-    mkdir build && \
-    cd build && \
-    cmake .. && \
-    make && \
-    make install && \
-    ldconfig /usr/local/lib/
+RUN git clone --branch=v2.4.3 https://github.com/eProsima/Micro-XRCE-DDS-Agent.git /root/Micro-XRCE-DDS-Agent
+WORKDIR /root/Micro-XRCE-DDS-Agent
+RUN mkdir build
+WORKDIR /root/Micro-XRCE-DDS-Agent/build
+RUN cmake ..
+RUN make -j$(nproc)
+RUN make install
+RUN ldconfig /usr/local/lib/
 
-# Clone PX4 repositories
-RUN mkdir -p /root/ros2_ws/src/
-WORKDIR /root/ros2_ws/src
-RUN git clone https://github.com/PX4/px4_msgs.git
-RUN git clone https://github.com/PX4/px4_ros_com.git
-RUN git clone https://github.com/tilties2/ws_sensor_combined.git
+# Clone ROS2 repos
+WORKDIR /root
+RUN git clone https://github.com/tilties2/ws_omniquad.git
+WORKDIR /root/ws_omniquad
+RUN git submodule update --init --recursive
 
 # Build ws
-WORKDIR /root/ros2_ws
+WORKDIR /root/ws_omniquad
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.zsh" >> ~/.zshrc
-RUN /bin/zsh -c "source /opt/ros/$ROS_DISTRO/setup.zsh && colcon build"
-RUN echo "source /root/ros2_ws/install/setup.zsh" >> ~/.zshrc
+RUN /bin/zsh -c "source /opt/ros/$ROS_DISTRO/setup.zsh && colcon build --event-handlers console_cohesion+ --cmake-args -DCMAKE_VERBOSE_MAKEFILE=ON"
+RUN echo "source /root/ws_omniquad/install/setup.zsh" >> ~/.zshrc
 
 # from ubuntu.sh
 WORKDIR /root/third_parties

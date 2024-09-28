@@ -7,7 +7,7 @@ YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
 repo_folder="/root/PX4-OmniQuad"
-ws_folder="/root/ros2_ws"
+ws_folder="/root/ws_omniquad"
 
 cd $repo_folder
 
