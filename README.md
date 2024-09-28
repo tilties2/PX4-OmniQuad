@@ -82,5 +82,24 @@ docker compose up -d omniquad-sitl
 docker exec -it omniquad-sitl-cnt zsh
 ```
 
-This will automatically launch the Px4-Omniquad SITL with ROS2.
+6. Build and launch sitl
 
+```bash
+make px4_sitl gazebo-classic_omniquad
+```
+
+### Connect with ROS2 with docker
+
+Further information on ROS2 with PX4 can be found here [ROS 2 User Guide ](http://docs.px4.io/main/en/ros2/user_guide)
+
+1. Open new terminal inside the container
+
+```bash
+docker exec -it omniquad-sitl-cnt zsh
+```
+
+2. Start the agent and connect with ROS2
+
+```bash
+MicroXRCEAgent udp4 -p 8888
+```
