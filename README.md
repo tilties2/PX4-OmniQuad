@@ -21,7 +21,55 @@ CONTACT FLIGHT           |  FREE FLIGHT
 
 ## Setup
 
-### Launch sitl
+### Launch sitl with docker (recommended option)
+
+To instead launch sitl using docker
+
+1. [Install docker](https://docs.docker.com/engine/install/ubuntu/), [nvidia-docker](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) and [docker compose](https://docs.docker.com/compose/)
+
+2. Update
+
+```bash
+sudo apt-get update
+```
+
+3. Clone the repository
+
+```bash
+git clone https://github.com/tilties2/PX4-OmniQuad.git
+```
+
+4. Go inside docker folder
+
+```bash
+cd PX4-OmniQuad/Docker
+```
+
+5. Build docker image
+
+```bash
+docker compose build omniquad-sitl
+```
+
+6. Create docker container and launch it
+
+```bash
+docker compose up -d omniquad-sitl
+```
+
+7. Create a terminal inside docker container
+
+```bash
+docker exec -it omniquad-sitl-cnt zsh
+```
+
+8. Build and launch sitl
+
+```bash
+make px4_sitl gazebo-classic_omniquad
+```
+
+### Launch sitl (without docker)
 
 Further information regards PX4 Software-In-The-Loop can be found at the official website [Simulation](https://docs.px4.io/v1.14/en/simulation/)
 
@@ -49,42 +97,6 @@ cd PX4-OmniQuad/Tools/setup
 
 ```bash
 cd PX4-OmniQuad
-make px4_sitl gazebo-classic_omniquad
-```
-
-### Launch sitl with docker (recommended option)
-
-To instead launch sitl using docker
-
-1. [Install docker](https://docs.docker.com/engine/install/ubuntu/), [nvidia-docker](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) and [docker compose](https://docs.docker.com/compose/)
-
-2. Go inside docker folder
-
-```bash
-cd Px4-Omniquad/Docker
-```
-
-3. Build docker image
-
-```bash
-docker compose build omniquad-sitl
-```
-
-4. Create docker container and launch it
-
-```bash
-docker compose up -d omniquad-sitl
-```
-
-5. Create a terminal inside docker container
-
-```bash
-docker exec -it omniquad-sitl-cnt zsh
-```
-
-6. Build and launch sitl
-
-```bash
 make px4_sitl gazebo-classic_omniquad
 ```
 
