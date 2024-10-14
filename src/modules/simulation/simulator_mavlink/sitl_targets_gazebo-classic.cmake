@@ -103,6 +103,7 @@ if(gazebo_FOUND)
 		uuv_bluerov2_heavy
 		uuv_hippocampus
 		omniquad
+		omniquad_omnistick
 	)
 
 	set(worlds

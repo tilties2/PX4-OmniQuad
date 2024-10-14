@@ -96,4 +96,5 @@ px4_add_romfs_files(
 	17002_flightgear_tf-g2
 
 	25001_gazebo-classic_omniquad
+	25002_gazebo-classic_omniquad_omnistick
 )
