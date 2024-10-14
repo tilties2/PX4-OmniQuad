@@ -18,6 +18,19 @@ CONTACT FLIGHT           |  FREE FLIGHT
 ![alt text](Media/omniquad_contactflight.GIF)  |  ![alt text](Media/omniquad_freeflight.GIF)
 
 
+## How to cite
+
+```bibtex
+@misc{mellet2024designcontrolomnidirectionalaerial,
+      title={Design and Control of an Omnidirectional Aerial Robot with a Miniaturized Haptic Joystick for Physical Interaction},
+      author={Julien Mellet and Andrea Berra and Salvatore Marcellini and Miguel Angel Trujillo Soto and Guillermo Heredia and Fabio Ruggiero and Vincenzo Lippiello},
+      year={2024},
+      eprint={2410.09003},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2410.09003},
+}
+```
 
 ## Setup
 
