@@ -101,15 +101,18 @@ ENV DEBIAN_FRONTEND=
 FROM base AS dev
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt update && apt install -y --no-install-recommends \
-    build-essential \
-    gdb \
-    git \
-    openssh-client \
-    python3-argcomplete \
-    python3-pip \
-    ros-foxy-ament-* \
-    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 16FAAD7AF99A65E2 && \
+    apt update && \
+    apt install -y --no-install-recommends \
+        build-essential \
+        gdb \
+        git \
+        openssh-client \
+        python3-argcomplete \
+        python3-pip && \
+    rm -rf /var/lib/apt/lists/*
+
 
 RUN rosdep init || echo "rosdep already initialized"
 

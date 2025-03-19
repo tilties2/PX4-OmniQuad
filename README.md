@@ -52,31 +52,38 @@ sudo apt-get update
 git clone https://github.com/tilties2/PX4-OmniQuad.git
 ```
 
-4. Go inside docker folder
+4. Initialize submodules
+
+```bash
+cd PX4-Omniquad
+git submodule update --init --recursive
+```
+
+5. Go inside docker folder
 
 ```bash
 cd PX4-OmniQuad/Docker
 ```
 
-5. Build docker image
+6. Build docker image
 
 ```bash
 docker compose build omniquad-sitl
 ```
 
-6. Create docker container and launch it
+7. Create docker container and launch it
 
 ```bash
 docker compose up -d omniquad-sitl
 ```
 
-7. Create a terminal inside docker container
+8. Create a terminal inside docker container
 
 ```bash
 docker exec -it omniquad-sitl-cnt zsh
 ```
 
-8. Build and launch sitl
+9. Build and launch sitl
 
 ```bash
 make px4_sitl gazebo-classic_omniquad
